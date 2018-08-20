@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, ToastAndroid, Text } from 'react-native';
+import { StyleSheet, View, TextInput, ToastAndroid, Text, ScrollView } from 'react-native';
 import { Header, List, ListItem, Button } from 'react-native-elements';
 
 import firebase from 'react-native-firebase';
+import { HeaderBtn } from '../HeaderBtn';
 
 export class Entry extends Component {
     db;
@@ -27,14 +28,14 @@ export class Entry extends Component {
                 list: doc.data().datesArray,
                 isLoading: false
             });
-            console.log(this.state.list);
         });
+
+        console.log(this.props);
     }
 
     addData = () => {
         let currentArr = this.state.list;
         let docRef = this.db.collection('db').doc('bornDates');
-        console.log(docRef);
 
         let entity = {
             name: this.state.name,
@@ -51,7 +52,17 @@ export class Entry extends Component {
                 born: ''
             });
         });
-    } 
+    }
+
+    onToggleDrawer = () => {
+        if (this.props.navigation) {
+            this.props.navigation.toggleDrawer();
+        }
+    }
+
+    setHeaderButton = () => {
+        return <HeaderBtn onIconPress={this.onToggleDrawer}/>
+    }
 
     render() {
         let { list, isLoading } = this.state;
@@ -65,14 +76,26 @@ export class Entry extends Component {
         }
 
         return (
-            <View style={entryStyle.container}>
-                    <View>
-                        <Header
-                            leftComponent={{ icon: 'menu', color: '#fff' }}
-                            centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-                            rightComponent={{ icon: 'home', color: '#fff' }}
-                            />
-                        <List containerStyle={{marginBottom: 20}}>
+            <ScrollView style={entryStyle.container}>
+                <Header
+                    outerContainerStyles={entryStyle.headerContainer}
+                    leftComponent={this.setHeaderButton()}
+                    centerComponent={{text: 'Entry Page', style: { color: '#fff', fontSize: 20 }}}
+                    rightComponent={{ icon: 'home', color: '#fff' }}/>
+                <TextInput 
+                    placeholder="Name" 
+                    onChangeText={(text) => this.setState({name: text})}
+                    value={this.state.name}/>
+                <TextInput 
+                    placeholder="Born" 
+                    onChangeText={(text) => this.setState({born: text})}
+                    value={this.state.born}/>
+                <Button 
+                    title="Add" 
+                    buttonStyle={entryStyle.btn} 
+                    onPress={this.addData}/>
+                <View>
+                    <List containerStyle={{marginBottom: 20}}>
                         {
                         list.map((item, index) => (
                             <ListItem
@@ -81,22 +104,10 @@ export class Entry extends Component {
                                 title={item.name}
                                 subtitle={item.born}
                                 />
-                        ))}   
-                        </List>
-                        <TextInput 
-                            placeholder="Name" 
-                            onChangeText={(text) => this.setState({name: text})}
-                            value={this.state.name}/>
-                        <TextInput 
-                            placeholder="Born" 
-                            onChangeText={(text) => this.setState({born: text})}
-                            value={this.state.born}/>                        
-                        <Button 
-                            title="Add" 
-                            buttonStyle={entryStyle.btn} 
-                            onPress={this.addData}/>
-                    </View>
-            </View>            
+                        ))}
+                    </List>
+                </View>
+            </ScrollView>
         );
     }
 }
@@ -105,9 +116,9 @@ const entryStyle = StyleSheet.create({
     btn: {
         backgroundColor: 'green'
     },
-    container: {
+    headerContainer: {
         flex: 1,
-        justifyContent: 'center',
+        flexDirection: 'row',
         alignItems: 'center',
     }
 });
