@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, View, TextInput, ToastAndroid, Text, ScrollView } from 'react-native';
 import { Header, List, ListItem, Button } from 'react-native-elements';
 
+import { PacmanIndicator } from 'react-native-indicators';
+
+
 import firebase from 'react-native-firebase';
 import { HeaderBtn } from '../HeaderBtn';
 
@@ -47,13 +50,13 @@ export class Entry extends Component {
         if(isLoading) {
             return (
                 <View style={entryStyle.container}>
-                    <Text>IS LOADING...</Text>
+                    <PacmanIndicator color="#222222"/>
                 </View>
             );
         }
 
         return (
-            <ScrollView style={entryStyle.container}>
+            <ScrollView>
                 <Header
                     outerContainerStyles={entryStyle.headerContainer}
                     leftComponent={this.setHeaderButton()}
@@ -78,6 +81,11 @@ export class Entry extends Component {
 }
 
 const entryStyle = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     headerContainer: {
         flex: 1,
         flexDirection: 'row',
