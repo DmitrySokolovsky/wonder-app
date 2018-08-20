@@ -1,9 +1,16 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Text, Icon, Header, Button } from 'react-native-elements';
+import { Text, Icon, Header } from 'react-native-elements';
 import { TextField } from 'react-native-material-textfield';
+import Btn from 'react-native-micro-animated-button';
+
+import firebase from 'react-native-firebase';
+
+import { PacmanIndicator } from 'react-native-indicators';
 
 export class Main extends React.Component {
+    db;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -11,6 +18,24 @@ export class Main extends React.Component {
             born: '',
             isLoading: true,
             list: []
+        }
+
+        this.db = firebase.firestore();
+    }
+
+    componentWillMount() {
+        let a = this.db.collection('db').doc('bornDates');
+        a.get().then(doc => {
+            this.setState({
+                list: doc.data().datesArray,
+                isLoading: false
+            });
+        });
+    }
+
+    successBtnHandler = () => {
+        if (this.props.navigation) {
+            this.props.navigation.navigate('entry');
         }
     }
 
@@ -33,16 +58,24 @@ export class Main extends React.Component {
         docRef.update({
             datesArray: currentArr
         }).then(() => {
-            ToastAndroid.show('Added', ToastAndroid.SHORT);
             this.setState({
                 name: '',
                 born: ''
             });
-            this.props.navigation.navigate('entry');
+            this.addBtn.success();
+        }).catch(() => {
+            this.addBtn.error();
         });
     }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={mainStyles.container}>
+                    <PacmanIndicator color="#222222"/>
+                </View>
+            );
+        }
         return (
             <ScrollView>
                 <Header 
@@ -62,10 +95,16 @@ export class Main extends React.Component {
                     onChangeText={(text) => this.setState({born: text})}
                     labelTextStyle={mainStyles.inputLabel}
                     value={this.state.born}/>
-                <Button 
-                    title="Add" 
-                    buttonStyle={mainStyles.addBtn} 
-                    onPress={this.addData}/>
+                <View style={mainStyles.centerContainer}>
+                    <Btn 
+                        label="Add" 
+                        ref={ref => (this.addBtn = ref)}
+                        buttonStyle={mainStyles.addBtn} 
+                        successIcon="check"
+                        errorIcon="warning"
+                        onPress={this.addData}
+                        onSuccess={this.successBtnHandler}/>
+                </View>
             </ScrollView>
         );
     }
@@ -84,5 +123,14 @@ const mainStyles = StyleSheet.create({
     },
     inputLabel: {
         paddingLeft: 5
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    centerContainer: {
+        flex: 0,
+        alignItems: 'center'
     }
 });

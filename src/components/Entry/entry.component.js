@@ -4,7 +4,6 @@ import { Header, List, ListItem, Button } from 'react-native-elements';
 
 import { PacmanIndicator } from 'react-native-indicators';
 
-
 import firebase from 'react-native-firebase';
 import { HeaderBtn } from '../HeaderBtn';
 
@@ -30,8 +29,6 @@ export class Entry extends Component {
                 isLoading: false
             });
         });
-
-        console.log(this.props);
     }
 
     onToggleDrawer = () => {
