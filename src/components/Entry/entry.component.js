@@ -12,8 +12,6 @@ export class Entry extends Component {
         super(props);
 
         this.state = {
-            name: '',
-            born: '',
             isLoading: true,
             list: []
         };
@@ -31,27 +29,6 @@ export class Entry extends Component {
         });
 
         console.log(this.props);
-    }
-
-    addData = () => {
-        let currentArr = this.state.list;
-        let docRef = this.db.collection('db').doc('bornDates');
-
-        let entity = {
-            name: this.state.name,
-            born: +this.state.born
-        };
-        currentArr.push(entity);
-
-        docRef.update({
-            datesArray: currentArr
-        }).then(() => {
-            ToastAndroid.show('Added', ToastAndroid.SHORT);
-            this.setState({
-                name: '',
-                born: ''
-            });
-        });
     }
 
     onToggleDrawer = () => {
@@ -82,18 +59,6 @@ export class Entry extends Component {
                     leftComponent={this.setHeaderButton()}
                     centerComponent={{text: 'Entry Page', style: { color: '#fff', fontSize: 20 }}}
                     rightComponent={{ icon: 'home', color: '#fff' }}/>
-                <TextInput 
-                    placeholder="Name" 
-                    onChangeText={(text) => this.setState({name: text})}
-                    value={this.state.name}/>
-                <TextInput 
-                    placeholder="Born" 
-                    onChangeText={(text) => this.setState({born: text})}
-                    value={this.state.born}/>
-                <Button 
-                    title="Add" 
-                    buttonStyle={entryStyle.btn} 
-                    onPress={this.addData}/>
                 <View>
                     <List containerStyle={{marginBottom: 20}}>
                         {
@@ -113,9 +78,6 @@ export class Entry extends Component {
 }
 
 const entryStyle = StyleSheet.create({
-    btn: {
-        backgroundColor: 'green'
-    },
     headerContainer: {
         flex: 1,
         flexDirection: 'row',

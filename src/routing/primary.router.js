@@ -6,6 +6,16 @@ const navConfig = {
 };
 
 export const PrimaryStackRouter = createDrawerNavigator({
-    entry: { screen: Entry },
-    main: { screen: Main }
+    entry: { 
+        screen: Entry,
+        navigationOptions: {
+            drawerLabel: 'Entered Records',
+        }
+    },
+    main: { 
+        screen: Main,
+        navigationOptions: {
+            drawerLabel: 'Main Form',
+        }
+    }
 }, navConfig);
