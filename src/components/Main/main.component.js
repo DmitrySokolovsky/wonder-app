@@ -1,6 +1,7 @@
 import React from 'react';
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Text, Icon, Header, Button } from 'react-native-elements';
+import { TextField } from 'react-native-material-textfield';
 
 export class Main extends React.Component {
     constructor(props) {
@@ -51,13 +52,15 @@ export class Main extends React.Component {
                 <View>
                     <Text h2>Add a record</Text>
                 </View>
-                <TextInput 
-                    placeholder="Name" 
+                <TextField 
+                    label="Name" 
                     onChangeText={(text) => this.setState({name: text})}
+                    labelTextStyle={mainStyles.inputLabel}
                     value={this.state.name}/>
-                <TextInput 
-                    placeholder="Born" 
+                <TextField 
+                    label="Born" 
                     onChangeText={(text) => this.setState({born: text})}
+                    labelTextStyle={mainStyles.inputLabel}
                     value={this.state.born}/>
                 <Button 
                     title="Add" 
@@ -76,6 +79,10 @@ const mainStyles = StyleSheet.create({
         backgroundColor: '#76cdd8'
     },
     addBtn: {
-        backgroundColor: '#76cdd8'
+        backgroundColor: '#76cdd8',
+        marginTop: 10
+    },
+    inputLabel: {
+        paddingLeft: 5
     }
 });
