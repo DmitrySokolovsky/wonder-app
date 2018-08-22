@@ -13,6 +13,8 @@ import com.facebook.soloader.SoLoader;
 
 import com.oblador.vectoricons.VectorIconsPackage;
 
+import com.sum.summ_package.SummerPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,7 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebasePackage(),
           new RNFirebaseFirestorePackage(),
           new RNFirebaseAuthPackage(),
-          new VectorIconsPackage()
+          new VectorIconsPackage(),
+          new SummerPackage()
       );
     }
 

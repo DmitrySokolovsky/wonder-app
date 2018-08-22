@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View, NativeModules } from 'react-native';
 import { Text, Icon, Header } from 'react-native-elements';
 import { TextField } from 'react-native-material-textfield';
 import Btn from 'react-native-micro-animated-button';

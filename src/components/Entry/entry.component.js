@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, ToastAndroid, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, TextInput, ToastAndroid, Text, ScrollView, NativeModules } from 'react-native';
 import { Header, List, ListItem, Button } from 'react-native-elements';
 
 import { PacmanIndicator } from 'react-native-indicators';
@@ -41,6 +41,12 @@ export class Entry extends Component {
         return <HeaderBtn onIconPress={this.onToggleDrawer}/>
     }
 
+    nativePress = () => {
+        const nativeSummer = NativeModules.Summer;
+
+        nativeSummer.sumTwoNums(5, 10, (res) => alert(`Result: ${res}`));
+    }
+
     render() {
         let { list, isLoading } = this.state;
 
@@ -54,6 +60,9 @@ export class Entry extends Component {
 
         return (
             <ScrollView>
+                <Button 
+                    title="Sum Native"
+                    onPress={this.nativePress}/>
                 <Header
                     outerContainerStyles={entryStyle.headerContainer}
                     leftComponent={this.setHeaderButton()}
