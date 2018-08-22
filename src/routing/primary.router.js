@@ -1,5 +1,6 @@
 import { createDrawerNavigator } from 'react-navigation';
 import { Entry, Main, DrawerRouterPrimary } from '../components';
+import { TodoStack } from './todo.router';
 
 const navConfig = {
     contentComponent: DrawerRouterPrimary
@@ -7,9 +8,9 @@ const navConfig = {
 
 export const PrimaryStackRouter = createDrawerNavigator({
     entry: { 
-        screen: Entry,
+        screen: TodoStack,
         navigationOptions: {
-            drawerLabel: 'Entered Records',
+            drawerLabel: 'Todo List',
         }
     },
     main: { 

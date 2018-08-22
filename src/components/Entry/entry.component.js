@@ -22,10 +22,10 @@ export class Entry extends Component {
     }
 
     componentWillMount() {
-        let a = this.db.collection('db').doc('bornDates');
+        let a = this.db.collection('db').doc('todos');
         a.get().then(doc => {
             this.setState({
-                list: doc.data().datesArray,
+                list: doc.data().todoList,
                 isLoading: false
             });
         });
@@ -43,10 +43,10 @@ export class Entry extends Component {
         return <HeaderBtn onIconPress={this.onToggleDrawer}/>
     }
 
-    onPressShow = () => {
-        const context = NativeModules.FirebaseManager;
-        let a;
-        context.showContext((res) => a = res);
+    onItemPressHandler = (item) => {
+        this.props.navigation.navigate('details', {
+            todoItem: item
+        });
     }
 
     render() {
@@ -60,10 +60,15 @@ export class Entry extends Component {
             );
         }
 
+        const options = {
+            month: 'long',
+            day: 'numeric',
+            weekday: 'long' 
+        }
+
         return (
+            
             <ScrollView>
-                <Button title="show"
-                onPress={this.onPressShow}/>
                 <Header
                     outerContainerStyles={entryStyle.headerContainer}
                     leftComponent={this.setHeaderButton()}
@@ -76,8 +81,9 @@ export class Entry extends Component {
                             <ListItem
                                 leftIcon={{name: 'android'}}
                                 key={index}
-                                title={item.name}
-                                subtitle={item.born}
+                                title={item.title}
+                                subtitle={"Deadline: " + item.deadline.toLocaleString("ru", options)}
+                                onPress={() => this.onItemPressHandler(item)}
                                 />
                         ))}
                     </List>

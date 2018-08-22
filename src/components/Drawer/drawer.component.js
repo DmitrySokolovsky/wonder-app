@@ -6,7 +6,7 @@ import { DrawerItems, SafeAreaView } from 'react-navigation';
 export const DrawerRouterPrimary = (props) => (
     <ScrollView>
         <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
-            <Text h1>Drawer</Text>
+            <Text h1>Todo app</Text>
             <DrawerItems {...props} />
         </SafeAreaView>
     </ScrollView>

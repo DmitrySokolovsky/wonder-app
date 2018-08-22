@@ -16,7 +16,7 @@ export class Main extends React.Component {
         this.state = {
             name: '',
             born: '',
-            isLoading: true,
+            //isLoading: true,
             list: []
         }
 
@@ -24,20 +24,20 @@ export class Main extends React.Component {
     }
 
     componentWillMount() {
-        let a = this.db.collection('db').doc('bornDates');
-        a.get().then(doc => {
-            this.setState({
-                list: doc.data().datesArray,
-                isLoading: false
-            });
-        });
+        // let a = this.db.collection('db').doc('bornDates');
+        // a.get().then(doc => {
+        //     this.setState({
+        //         list: doc.data().datesArray,
+        //         isLoading: false
+        //     });
+        // });
     }
 
-    successBtnHandler = () => {
-        if (this.props.navigation) {
-            this.props.navigation.navigate('entry');
-        }
-    }
+    // successBtnHandler = () => {
+    //     if (this.props.navigation) {
+    //         this.props.navigation.navigate('entry');
+    //     }
+    // }
 
     onNavBack = () => {
         if (this.props.navigation) {
@@ -45,47 +45,47 @@ export class Main extends React.Component {
         }
     }
 
-    addData = () => {
-        let currentArr = this.state.list;
-        let docRef = this.db.collection('db').doc('bornDates');
+    // addData = () => {
+    //     let currentArr = this.state.list;
+    //     let docRef = this.db.collection('db').doc('bornDates');
 
-        let entity = {
-            name: this.state.name,
-            born: +this.state.born
-        };
-        currentArr.push(entity);
+    //     let entity = {
+    //         name: this.state.name,
+    //         born: +this.state.born
+    //     };
+    //     currentArr.push(entity);
 
-        docRef.update({
-            datesArray: currentArr
-        }).then(() => {
-            this.setState({
-                name: '',
-                born: ''
-            });
-            this.addBtn.success();
-        }).catch(() => {
-            this.addBtn.error();
-        });
-    }
+    //     docRef.update({
+    //         datesArray: currentArr
+    //     }).then(() => {
+    //         this.setState({
+    //             name: '',
+    //             born: ''
+    //         });
+    //         this.addBtn.success();
+    //     }).catch(() => {
+    //         this.addBtn.error();
+    //     });
+    // }
 
     render() {
-        if (this.state.isLoading) {
-            return (
-                <View style={mainStyles.container}>
-                    <PacmanIndicator color="#222222"/>
-                </View>
-            );
-        }
+        // if (this.state.isLoading) {
+        //     return (
+        //         <View style={mainStyles.container}>
+        //             <PacmanIndicator color="#222222"/>
+        //         </View>
+        //     );
+        // }
         return (
             <ScrollView>
                 <Header 
                      outerContainerStyles={mainStyles.headerView}
-                     leftComponent={<Text>Main Form</Text>}
+                     leftComponent={<Text>NOT IMPLEMENTED</Text>}
                      rightComponent={<Icon name="arrow-back" onPress={this.onNavBack}/>}/>
                 <View>
                     <Text h2>Add a record</Text>
                 </View>
-                <TextField 
+                {/* <TextField 
                     label="Name" 
                     onChangeText={(text) => this.setState({name: text})}
                     labelTextStyle={mainStyles.inputLabel}
@@ -104,7 +104,7 @@ export class Main extends React.Component {
                         errorIcon="warning"
                         onPress={this.addData}
                         onSuccess={this.successBtnHandler}/>
-                </View>
+                </View> */}
             </ScrollView>
         );
     }
