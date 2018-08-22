@@ -1,4 +1,4 @@
-package com.summ_module
+package com.wonderapp.summer_module
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule

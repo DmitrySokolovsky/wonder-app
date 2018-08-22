@@ -29,6 +29,8 @@ export class Entry extends Component {
                 isLoading: false
             });
         });
+
+        
     }
 
     onToggleDrawer = () => {
@@ -41,10 +43,10 @@ export class Entry extends Component {
         return <HeaderBtn onIconPress={this.onToggleDrawer}/>
     }
 
-    nativePress = () => {
-        const nativeSummer = NativeModules.Summer;
-
-        nativeSummer.sumTwoNums(5, 10, (res) => alert(`Result: ${res}`));
+    onPressShow = () => {
+        const context = NativeModules.FirebaseManager;
+        let a;
+        context.showContext((res) => a = res);
     }
 
     render() {
@@ -60,9 +62,8 @@ export class Entry extends Component {
 
         return (
             <ScrollView>
-                <Button 
-                    title="Sum Native"
-                    onPress={this.nativePress}/>
+                <Button title="show"
+                onPress={this.onPressShow}/>
                 <Header
                     outerContainerStyles={entryStyle.headerContainer}
                     leftComponent={this.setHeaderButton()}

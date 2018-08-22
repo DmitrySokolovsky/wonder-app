@@ -1,13 +1,15 @@
-package com.summer_module
+package com.wonderapp.summer_module
 
 import android.content.Intent
 import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
+import com.facebook.react.bridge.BaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.Callback
+import java.util.*
 
-class SummerNativeModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+class SummerNativeModule : BaseJavaModule() {
     override fun getName(): String {
-        return "Summer"
+        return "SummerNativeModule"
     }
 
     @ReactMethod
