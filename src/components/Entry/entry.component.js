@@ -30,6 +30,7 @@ export class Entry extends Component {
             });
         });
 
+           
         
     }
 

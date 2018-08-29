@@ -24,13 +24,13 @@ export class Main extends React.Component {
     }
 
     componentWillMount() {
-        // let a = this.db.collection('db').doc('bornDates');
-        // a.get().then(doc => {
-        //     this.setState({
-        //         list: doc.data().datesArray,
-        //         isLoading: false
-        //     });
-        // });
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                console.log('AUTH-ed');
+            } else {
+                // No user is signed in.
+            }
+        });
     }
 
     // successBtnHandler = () => {

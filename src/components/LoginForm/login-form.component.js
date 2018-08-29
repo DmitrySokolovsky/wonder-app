@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Button, TextInput } from 'react-native';
 import firebase from 'react-native-firebase';
+import { connect } from 'react-redux';
 
 import { logIn } from '../../store/actions';
 
@@ -9,11 +10,22 @@ export class LoginForm extends React.Component {
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            uid: ''
         };
     }
 
-    logInPress = (e) => {
+    // componentWillMount() {
+    //     firebase.auth().onAuthStateChanged(function(user) {
+    //         if (user) {
+    //             console.log('AUTH-ed');
+    //         } else {
+    //             // No user is signed in.
+    //         }
+    //     });
+    // }
+
+    logInPress = () => {
         const creds = {
             email: this.state.email,
             password: this.state.password
@@ -21,13 +33,17 @@ export class LoginForm extends React.Component {
 
         console.log(this.state.email);
 
-       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(err => console.log(err.User.uuid)).catch(err => console.log(err));
-       //res => this.props.setUserUuid(res.uuid)
+       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(user => {
+            console.log(user.uid);
+            this.setState({
+                uid: user.uid
+            });
+        }).catch(err => console.log(err));
     }
 
     render() {
         return (
-            <View>dmitry
+            <View>
                 <TextInput onChangeText={(text) => this.setState({email: text})}/>
                 <TextInput onChangeText={(text) => this.setState({password: text})}/>
                 <Button title="LOG IN" onPress={this.logInPress}/>
@@ -36,8 +52,14 @@ export class LoginForm extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setUserUuid:(uuid) =>  dispatch(logIn({uuid: uuid}))
-    }
-}
+// const mapPropsToState = (state) => {
+//     let userData = state.au
+// }
+
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         setUserUuid:(uuid) =>  dispatch(logIn({uuid: uuid}))
+//     }
+// };
+
+// export const LoginForm = connect()(LoginFormComponent);
