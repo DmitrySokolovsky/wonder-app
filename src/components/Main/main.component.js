@@ -23,7 +23,7 @@ export class Main extends React.Component {
         this.db = firebase.firestore();
     }
 
-    componentWillMount() {
+    componentDidMount() {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 console.log('AUTH-ed');

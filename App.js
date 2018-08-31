@@ -15,7 +15,7 @@ export default class AppComponent extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({
@@ -30,10 +30,17 @@ export default class AppComponent extends Component {
         });
     }
 
-    renderLoginForm = () => {
-        return (
-            <LoginForm/>
-        );
+    onLogin = (email, password) => {
+        this.setState({
+            isLoading: true
+        });
+        firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
+            console.log(user.uid);
+            this.setState({
+                uid: user.uid,
+                isLoading: false
+            });
+        }).catch(err => console.log(err));
     }
 
     render() {
@@ -49,7 +56,11 @@ export default class AppComponent extends Component {
 
         return (
             <View style={styles.container}>
-                { userData ? <PrimaryStackRouter /> : this.renderLoginForm() }
+                { 
+                    userData ? 
+                    <PrimaryStackRouter /> : 
+                    <LoginForm onLoginPress={this.onLogin}/> 
+                }
             </View>
         );
     }
