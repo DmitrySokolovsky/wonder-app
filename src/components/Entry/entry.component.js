@@ -1,11 +1,27 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, ToastAndroid, Text, ScrollView, NativeModules } from 'react-native';
-import { Header, List, ListItem, Button } from 'react-native-elements';
+import React, {
+    Component
+} from 'react';
+import {
+    StyleSheet,
+    View,
+    ScrollView
+} from 'react-native';
+import {
+    Header
+} from 'react-native-elements';
 
-import { PacmanIndicator } from 'react-native-indicators';
+import {
+    PacmanIndicator
+} from 'react-native-indicators';
+import {
+    TodoList,
+    TodoItem
+} from '../';
 
 import firebase from 'react-native-firebase';
-import { HeaderBtn } from '../HeaderBtn';
+import {
+    HeaderBtn
+} from '../HeaderBtn';
 
 export class Entry extends Component {
     db;
@@ -13,6 +29,7 @@ export class Entry extends Component {
     constructor(props) {
         super(props);
 
+        this.unsubscribe = null;
         this.state = {
             isLoading: true,
             list: []
@@ -21,17 +38,37 @@ export class Entry extends Component {
         this.db = firebase.firestore();
     }
 
-    componentWillMount() {
-        let a = this.db.collection('db').doc('todos');
-        a.get().then(doc => {
-            this.setState({
-                list: doc.data().todoList,
-                isLoading: false
+    componentDidMount() {
+        //var user = firebase.auth().currentUser;
+        this.unsubscribe = this.db.collection('todos').onSnapshot(this.onCollectionUpdate);
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
+    onCollectionUpdate = (querySnapshot) => {
+        const todos = [];
+
+        querySnapshot.forEach((doc) => {
+            const { title, complete, description } = doc.data();
+
+            todos.push({
+                key: doc.id,
+                doc,
+                title,
+                description,
+                complete,
             });
         });
 
-           
-        
+        this.setState({
+            list: todos,
+            isLoading: false,
+        });
+
+        console.log("todoUpdate", this.state);
+
     }
 
     onToggleDrawer = () => {
@@ -41,7 +78,7 @@ export class Entry extends Component {
     }
 
     setHeaderButton = () => {
-        return <HeaderBtn onIconPress={this.onToggleDrawer}/>
+        return <HeaderBtn onIconPress = { this.onToggleDrawer } />
     }
 
     onItemPressHandler = (item) => {
@@ -50,45 +87,46 @@ export class Entry extends Component {
         });
     }
 
+    renderTodoItems = ({item}) => {
+        return <TodoItem title={item.title} description={item.description}/>
+    }
+
     render() {
         let { list, isLoading } = this.state;
 
-        if(isLoading) {
-            return (
-                <View style={entryStyle.container}>
-                    <PacmanIndicator color="#222222"/>
+        if (isLoading) {
+            return ( <View style = {entryStyle.container} >
+                <PacmanIndicator color = "#222222" />
                 </View>
             );
         }
 
-        const options = {
-            month: 'long',
-            day: 'numeric',
-            weekday: 'long' 
-        }
-
         return (
-            
-            <ScrollView>
-                <Header
-                    outerContainerStyles={entryStyle.headerContainer}
-                    leftComponent={this.setHeaderButton()}
-                    centerComponent={{text: 'Entry Page', style: { color: '#fff', fontSize: 20 }}}
-                    rightComponent={{ icon: 'home', color: '#fff' }}/>
-                <View>
-                    <List containerStyle={{marginBottom: 20}}>
+            <ScrollView >
+                <Header 
+                    outerContainerStyles = {entryStyle.headerContainer}
+                    leftComponent = {this.setHeaderButton()}
+                    centerComponent = {
                         {
-                        list.map((item, index) => (
-                            <ListItem
-                                leftIcon={{name: 'android'}}
-                                key={index}
-                                title={item.title}
-                                subtitle={"Deadline: " + item.deadline.toLocaleString("ru", options)}
-                                onPress={() => this.onItemPressHandler(item)}
-                                />
-                        ))}
-                    </List>
-                </View>
+                            text: 'Entry Page',
+                            style: {
+                                color: '#fff',
+                                fontSize: 20
+                            }
+                        }
+                    }
+                    rightComponent = {
+                        {
+                            icon: 'home',
+                            color: '#fff'
+                        }
+                    }
+                /> 
+                <View >
+                    <TodoList 
+                        data={list}
+                        renderItem={this.renderTodoItems}/>
+                </View> 
             </ScrollView>
         );
     }
