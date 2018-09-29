@@ -1,66 +1,28 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { PrimaryStackRouter } from './src/routing';
-import { connect } from 'react-redux';
-import { LoginForm } from './src/components';
+import { StyleSheet, View, Button, Alert } from 'react-native';
 import firebase from 'react-native-firebase';
-import { PacmanIndicator } from 'react-native-indicators';
 
-export default class AppComponent extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            userData: '', 
-            isLoading: true
-        };
-    }
+export default class App extends Component {
 
     componentDidMount() {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({
-                    userData: user.uid,
-                    isLoading: false
-                });
-            } else {
-                this.setState({
-                    isLoading: false
-                });
-            }
+        firebase.messaging().hasPermission()
+            .then(enabled => {
+                if (enabled) {
+                    Alert.alert('Hello it works');
+                } else {
+                    Alert.alert('Hello!@');
+                } 
         });
     }
 
-    onLogin = (email, password) => {
-        this.setState({
-            isLoading: true
-        });
-        firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
-            console.log(user.uid);
-            this.setState({
-                uid: user.uid,
-                isLoading: false
-            });
-        }).catch(err => console.log(err));
+    press = () => {
+        Alert.alert('Hello');
     }
 
     render() {
-        let { userData, isLoading } = this.state;
-
-        if(isLoading) {
-            return (
-                <View style={[styles.container, styles.containerCenter]}>
-                    <PacmanIndicator color="#222222"/>
-                </View>
-            );
-        }
-
         return (
             <View style={styles.container}>
-                { 
-                    userData ? 
-                    <PrimaryStackRouter /> : 
-                    <LoginForm onLoginPress={this.onLogin}/> 
-                }
+                <Button title="Press" onPress={this.press} />
             </View>
         );
     }
@@ -68,19 +30,8 @@ export default class AppComponent extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
-    },
-    containerCenter: {
+        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     }
 });
-
-const mapStateToProps = (state) => {
-    let userData = state.AUTH.userData;
-    return {
-        userData
-    };
-}
-
-export const App = connect(mapStateToProps)(AppComponent);

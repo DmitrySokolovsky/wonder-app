@@ -14,7 +14,8 @@ import com.facebook.soloader.SoLoader;
 import com.oblador.vectoricons.VectorIconsPackage;
 
 import com.wonderapp.summer_module.SummerPackage;
-import com.wonderapp.FirebaseManager.FirebaseManagerPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage; 
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +37,9 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebaseAuthPackage(),
           new VectorIconsPackage(),
           new SummerPackage(),
-          new FirebaseManagerPackage()
+          new FirebaseManagerPackage(),
+          new RNFirebaseNotificationsPackage(),
+          new RNFirebaseMessagingPackage()
       );
     }
 
