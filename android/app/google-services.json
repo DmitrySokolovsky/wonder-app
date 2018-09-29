@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "666083869133",
-    "firebase_url": "https://wonderapp-acffc.firebaseio.com",
-    "project_id": "wonderapp-acffc",
-    "storage_bucket": "wonderapp-acffc.appspot.com"
+    "project_number": "155172501141",
+    "firebase_url": "https://wonderapp-7716a.firebaseio.com",
+    "project_id": "wonderapp-7716a",
+    "storage_bucket": "wonderapp-7716a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:666083869133:android:1921c2af755a37fe",
+        "mobilesdk_app_id": "1:155172501141:android:1921c2af755a37fe",
         "android_client_info": {
           "package_name": "com.wonderapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "666083869133-9q6v0d6ob3jirvac2mnhd5bojr9v2301.apps.googleusercontent.com",
+          "client_id": "155172501141-en27hgep81el690ktsah8pa4p40t2su5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBZ29lnz4z2OrNosjtny2fP_4q0ERd7OBQ"
+          "current_key": "AIzaSyBIuH2G1EH8dUUxFdaZUnsCyMh26VkMDCI"
         }
       ],
       "services": {
