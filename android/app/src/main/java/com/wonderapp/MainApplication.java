@@ -35,8 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebaseFirestorePackage(),
           new RNFirebaseAuthPackage(),
           new VectorIconsPackage(),
-          new SummerPackage(),
-          new FirebaseManagerPackage()
+          new SummerPackage()
       );
     }
 
