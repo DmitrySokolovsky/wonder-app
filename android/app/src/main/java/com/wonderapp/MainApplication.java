@@ -15,6 +15,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 
 import com.wonderapp.summer_module.SummerPackage;
 import com.wonderapp.FirebaseManager.FirebaseManagerPackage;
+import com.wenkesj.voice.VoicePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +36,8 @@ public class MainApplication extends Application implements ReactApplication {
           new RNFirebaseFirestorePackage(),
           new RNFirebaseAuthPackage(),
           new VectorIconsPackage(),
-          new SummerPackage()
+          new SummerPackage(),
+          new VoicePackage()
       );
     }
 

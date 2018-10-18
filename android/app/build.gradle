@@ -170,6 +170,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation "com.google.firebase:firebase-auth:16.0.2"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.61"
+    implementation project(':react-native-voice')
 }
 
 // Run this once to be able to run the application with BUCK

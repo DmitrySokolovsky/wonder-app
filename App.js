@@ -1,78 +1,77 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Button, Alert, Text, Modal } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation';
-
-const View1 = () => {
-    return (
-        <View style={styles.container1}>
-            <Text>Press the BTN to see alert.</Text>
-                        <Text>********************************************</Text>
-                        <Text>*******************************************</Text>
-                        <Text>*****************************************</Text>
-                        <Text>***************************************</Text>
-                        <Text>********************************************</Text>
-                        <Text>***************************************************</Text>
-                        <Text>*******************************************************</Text>
-                        <Text>******************************************************</Text>
-                        <Text>****************************************************</Text>
-                        <Text>***************************************************</Text>
-                        <Text>****************************************************</Text>
-                        <Text>****************************************************</Text>
-                        <Text>********************************************</Text>
-                        <Text>*******************************************</Text>
-                        <Text>*****************************************</Text>
-                        <Text>***************************************</Text>
-                        <Text>********************************************</Text>
-                        <Text>***************************************************</Text>
-                        <Text>*******************************************************</Text>
-                        <Text>******************************************************</Text>
-                        <Text>****************************************************</Text>
-                        <Text>***************************************************</Text>
-                        <Text>****************************************************</Text>
-                        <Text>****************************************************</Text>
-            <Button title="Press" onPress={() => Alert.alert("HELLO22")} />
-        </View>
-    );
-}
-
-const View2 = () => {
-    return (
-        <View style={styles.container}>
-            <Text>Press the BTN to see alert.</Text>
-            <Button title="Press" onPress={() => Alert.alert("HELLO22")} />
-        </View>
-    );
-}
-
-const Nav = createBottomTabNavigator({
-    View1: View1,
-    View2: View2
-});
+import Voice from 'react-native-voice';
 
 export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isModalVisible: true
+            recognized: 'not recognize',
+            started: 'stopped',
+            results: [],
+            count: 0
         };
+
+        Voice.onSpeechStart = this.onSpeechStart.bind(this);
+        //Voice.onSpeechRecognized = this.onSpeechRecognized.bind(this);
+        Voice.onSpeechPartialResults = this.onSpeechResults.bind(this);
+        Voice.onSpeechEnd = this.onSpeechEnd.bind(this);
+        //Voice.onSpeechEnd = this.onSpeechEnd.bind(this);
     }
+
+    // shouldComponentUpdate() {
+    //     return false;
+    // }
+
+
+    async press() {
+        try {
+            await Voice.start('en-US');
+        } catch (err) {
+
+        }
+        
+    }
+
+    onSpeechStart(e)  {
+        this.setState({
+            started: 'started',
+        });
+    }
+
+      onSpeechResults(e) {
+          this.setState({
+              results: e.value
+          })
+      }
+
+      onSpeechEnd(e) {
+        this.setState({
+            started: 'end',
+        });
+
+        // C этой хренью работает 2-4 раза подряд, ьез нее всего 1 =(
+        this.stop();
+        this.press();
+      }
+
+      async stop() {
+          try {
+              await Voice.stop();
+          } catch (err) {
+
+        }
+      }
 
     render() {
         return (
             <View style={{flex: 1}}>
-              
-                <Modal transparent={true} visible={this.state.isModalVisible} onRequestClose={() => this.setState({ isModalVisible: false })}>
-                { this.state.isModalVisible ?
-                    <View style={styles.container3}>
-                        <Text style={styles.nonTransparent}>*******************</Text>
-                        <Text style={styles.nonTransparent}>*******************</Text>
-                        <Text style={styles.nonTransparent}>*******************</Text>
-                        <Text style={styles.nonTransparent}>*******************</Text>
-                        <Button style={styles.nonTransparent} title="Close Modal" onPress={() => this.setState({ isModalVisible: false })}/>
-                    </View> : null }
-                </Modal>
-            
-                <Nav />
+                <Text>{this.state.started}</Text>
+                <Text>{this.state.count}</Text>
+                <Button title="Press to record" onPress={this.press.bind(this)} />
+                
+                {/* <Button title="stop to record" onPress={this.stop} /> */}
+                { this.state.results.map((result, index) => <Text key={index}>{result}</Text>) }
             </View>
         );
     }
